@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import {
   DialogClose,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -41,36 +40,18 @@ type BookFormProps = {
 
 function BookDataEntryForm({ initialBook }: BookFormProps) {
   const queryClient = useQueryClient();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: {},
-  // } = useForm<z.infer<typeof bookSchema>>({
-  //   resolver: zodResolver(bookSchema),
-  //   defaultValues: initialBook,
-  // });
 
-  const {
-    data: book,
-    isLoading,
-    isFetching,
-  } = useQuery({
+  useQuery({
     queryKey: [`book_${initialBook?.id}`],
     queryFn: () => getBookById(initialBook?.id || ""),
   });
 
   const form = useForm<z.infer<typeof bookSchema>>({
+    mode: "onChange",
+    reValidateMode: "onChange",
     resolver: zodResolver(bookSchema),
     defaultValues: initialBook,
   });
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: {},
-  // } = form;
 
   const createOrUpdateBookMutation = useMutation({
     mutationFn: initialBook
@@ -80,6 +61,7 @@ function BookDataEntryForm({ initialBook }: BookFormProps) {
       queryClient.invalidateQueries({
         queryKey: ["books"],
       });
+      form.reset({ title: "", description: "", price: 0, category: "" });
     },
   });
 
@@ -87,11 +69,6 @@ function BookDataEntryForm({ initialBook }: BookFormProps) {
     createOrUpdateBookMutation.mutate(createBookEntry);
   };
 
-  useEffect(() => {
-    if (form.formState.isSubmitSuccessful) {
-      form.reset({ title: "", description: "", price: "", category: "" });
-    }
-  }, [form.formState, form.reset, form]);
 
   return (
     <div>
@@ -154,7 +131,7 @@ function BookDataEntryForm({ initialBook }: BookFormProps) {
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Input placeholder="category" {...field} />
+                  <Input placeholder="category" {...field}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -168,7 +145,7 @@ function BookDataEntryForm({ initialBook }: BookFormProps) {
                 form.reset({
                   title: "",
                   description: "",
-                  price: "",
+                  price: 0,
                   category: "",
                 })
               }

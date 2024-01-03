@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import BookDataEntryForm from "../book-data-entry-form/page";
+import { stringify } from "querystring";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -36,18 +37,27 @@ export const columns: ColumnDef<Book>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      const description: string = row.getValue("description") as string;
+
+      return (
+        <div className="max-w-60 overflow-hidden whitespace-nowrap text-ellipsis">
+          {description.toString()}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",
     header: "Price",
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"))
-      const formatted = new Intl.NumberFormat("en-GB", {
+      const price = parseFloat(row.getValue("price"));
+      const formattedPrice = new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "eur",
-      }).format(price)
-      
-      return <div>{formatted}</div>
+      }).format(price);
+
+      return <div>{formattedPrice}</div>;
     },
   },
   {
@@ -114,7 +124,7 @@ export const columns: ColumnDef<Book>[] = [
             </AlertDialogContent>
           </AlertDialog>
           <DialogContent className="sm:max-w-[425px]">
-            <BookDataEntryForm initialBook={book}/>
+            <BookDataEntryForm initialBook={book} />
           </DialogContent>
         </Dialog>
       );

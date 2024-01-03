@@ -40,7 +40,7 @@ export default function Home() {
           <CardContent className="pb-0">
             <div className="container flex flex-wrap items-center justify-center px-4 py-8 mx-auto  lg:justify-between">
               <div className="flex justify-center space-x-4 lg:mt-0">
-                <Link href={""}>
+                <Link href={"https://github.com/danielharvilik/books-datagrid"}>
                   <GitHubLogoIcon className="h-6 w-6" />
                 </Link>
               </div>

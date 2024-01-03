@@ -5,7 +5,6 @@ import { z } from "zod";
 export const bookSchema = z.object({
   title: z.string({}).min(1).max(20),
   description: z.string().min(1).max(250),
-  // price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {}),
   price: z.coerce.number(),
   category: z.string().min(1).max(20),
 });

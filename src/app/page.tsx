@@ -13,7 +13,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import BookTable from "./books/page";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import BookDataEntryForm from "./book-data-entry-form/page";
+import BookDataEntryForm from "./book-data-entry-form/book-data-entry-form";
 
 export default function Home() {
   return (

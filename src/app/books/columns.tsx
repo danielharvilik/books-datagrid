@@ -26,8 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import BookDataEntryForm from "../book-data-entry-form/page";
-import { stringify } from "querystring";
+import BookDataEntryForm from "../book-data-entry-form/book-data-entry-form";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -38,7 +37,7 @@ export const columns: ColumnDef<Book>[] = [
     accessorKey: "description",
     header: "Description",
     cell: ({ row }) => {
-      const description: string = row.getValue("description") as string;
+      const description = row.getValue<string>("description");
 
       return (
         <div className="max-w-60 overflow-hidden whitespace-nowrap text-ellipsis">
